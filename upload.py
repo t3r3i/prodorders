@@ -27,8 +27,6 @@ def upload():
                             prodid,prodname,price=df.loc[i]
                             #prod=product.query.filter(product.productid==1).first_or_404(description=f"There is no product with {df.loc[0,'productid']}")
                             prod=db.session.query(modules.product).filter(product.productid==int(prodid)).first()
-                            
-                            print(prod)
                             if not prod : 
                                 prodrec=modules.product(productid=int(prodid),productdesc=prodname,price=price)
                                 db.session.add(prodrec)
