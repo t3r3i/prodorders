@@ -24,14 +24,16 @@ def upload():
                         df = pd.read_csv(request.files.get('file'))
                         df.columns = [c.lower() for c in df.columns]
                         for i in range(len(df)):
-                            print(df.loc[i,'productid'])
-                            #prod=product.query.filter(product.productid==df.loc[0,'productid']).first_or_404(description=f"There is no product with {df.loc[0,'productid']}")
-                            prod=db.session.query(modules.product).filter(modules.product.productid==df.loc[i,'productid']).first()
                             prodid,prodname,price=df.loc[i]
+                            #prod=product.query.filter(product.productid==1).first_or_404(description=f"There is no product with {df.loc[0,'productid']}")
+                            prod=db.session.query(modules.product).filter(product.productid==int(prodid)).first()
+                            
+                            print(prod)
                             if not prod : 
                                 prodrec=modules.product(productid=int(prodid),productdesc=prodname,price=price)
                                 db.session.add(prodrec)
                                 db.session.commit()
+
                             else :
                                 prod.price=price
                                 prod.productdesc=prodname
